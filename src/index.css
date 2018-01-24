@@ -1,0 +1,32 @@
+
+    
+  .box {
+    display: inline-block;       
+    border: 1px solid black;
+    width: 15px;
+    height: 15px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    }
+  
+  
+  
+  .grid {
+    width: 150px;
+    line-height: 5;
+    margin: auto;
+    box-shadow: 5px 5px 20px white;
+    margin-top: 50px;
+  }
+    
+  h1, h2, h3, h4 {
+    color: white;
+    margin: auto;
+    text-align: center;
+    width: 50%;
+    margin-top: 10px;
+  }
+  
+  h4 {
+    margin-top: 0px;
+  }
