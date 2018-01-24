@@ -11,7 +11,7 @@ class Main extends React.Component {
              gridfull:Array(this.rows).fill().map(() => Array(this.cols).fill(false))
          }
     }
-    
+
     render(){
 
         return(
@@ -19,8 +19,8 @@ class Main extends React.Component {
 
            <h1> Game of life </h1>
 
-           
-           <Grid 
+
+           <Grid
            gridfull={this.state.gridfull}
            rows={this.rows}
            cols={this.cols}
@@ -74,11 +74,11 @@ class Box extends React.Component{
 render(){
 
     return(
-    <div>
+    <div
         className={this.props.boxclass}
         id={this.props.boxid}
         onClick={this.selectbox}
-        </div>
+      />
 
     );
 }
