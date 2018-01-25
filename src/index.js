@@ -11,6 +11,7 @@ class Main extends React.Component {
              gridfull:Array(this.rows).fill().map(() => Array(this.cols).fill(false))
          }
     }
+<<<<<<< HEAD
      selectbox=(row,col)=>{
          let gridcopy=arrayclone(this.state.gridfull);
          gridcopy[row][col]=!gridcopy[row][col];
@@ -72,6 +73,9 @@ class Main extends React.Component {
          this.seed();
          this.playbutton();
      }
+=======
+
+>>>>>>> 48f4e524d2f689bdfdc8abcccf94873485b63365
     render(){
 
         return(
