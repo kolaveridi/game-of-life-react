@@ -7,11 +7,13 @@ class Main extends React.Component {
         this.rows=30;
         this.cols=50;
         this.speed=100;
+        this.flag=false;
+        this.nextgridstack=[];
+        this.prevgridstack=[];
          this.state={
              generation:0,
              gridfull:Array(this.rows).fill().map(() => Array(this.cols).fill(false)),
-             prevgrid:null,
-             nextgrid:null,
+             
             
          }
     }
@@ -20,19 +22,33 @@ class Main extends React.Component {
          let gridcopy=arrayclone(this.state.gridfull);
          //let gridcopy1=arrayclone(this.state.gridfull);//copy it 
          gridcopy[row][col]=!gridcopy[row][col];// changed here 
-
+         if(this.flag===true){// flag is true means pause has been pressed 
+             this.prevgridstack.push(gridcopy);// push it onto stack and take out from back
+             this.nextgridstack.unshift(gridcopy);// push it onto queue
+         }
          this.setState({
              gridfull:gridcopy,
-             nextgrid:gridcopy
-            
          })
+         
+
      }
      undo=()=>{
          
-         this.setState({
-             gridfull:this.state.prevgrid
-         })
+         while(this.prevgridstack.length>0){
+             let gridstored=this.prevgridstack.pop();
+             this.setState({
+                 gridfull:gridstored
+             })
+         }
         
+     }
+     redo=()=>{
+         while(this.nextgridstack.length>0){
+             let gridstored1=this.nextgridstack.pop();
+             this.setState({
+                 gridfull:gridstored1
+             })
+         }
      }
      seed=()=>{
          console.log("seed");
@@ -50,17 +66,11 @@ class Main extends React.Component {
         });
        
      }
-     redo=()=>{
-         this.setState({
-            gridfull:this.state.nextgrid
-         });
-     }
+    
      pause =()=>{
          clearInterval(this.intervalId);
-         this.setState({
-            prevgrid:this.state.gridfull
+         this.flag=true;
         
-         });
      }
     
      playbutton =()=>{
