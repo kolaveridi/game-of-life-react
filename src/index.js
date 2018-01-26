@@ -6,6 +6,7 @@ class Main extends React.Component {
         super(props);
         this.rows=30;
         this.cols=50;
+        this.speed=100;
          this.state={
              generation:0,
              gridfull:Array(this.rows).fill().map(() => Array(this.cols).fill(false))
@@ -40,6 +41,22 @@ class Main extends React.Component {
         clearInterval(this.intervalId);
          this.intervalId=setInterval(this.play,this.speed);
      }
+     slow=()=>{
+         this.speed=1000;
+         this.playbutton();
+     }
+     fast=()=>{
+         this.speed=10;
+         this.playbutton();
+     }
+     clear =()=>{
+         // make a grid again all having false and then change the state of grid to this 
+         let twodarray=Array(this.rows).fill().map(() => Array(this.cols).fill(false));
+         this.setState({
+             gridfull:twodarray,
+             generation:0
+         });
+   }
      play = () => {
          console.log("play ");
 		let g = this.state.gridfull;
@@ -88,7 +105,12 @@ class Main extends React.Component {
            cols={this.cols}
            selectbox={this.selectbox}
             />
-
+            <Buttons 
+            slow={this.slow}
+           fast={this.fast}
+           clear={this.clear}
+           seed={this.seed}
+            />
 
            <h2> Generations:{this.state.generation}</h2>
 
@@ -96,6 +118,21 @@ class Main extends React.Component {
             </div>
 
         );
+    }
+}
+class Buttons extends React.Component{
+    render(){
+        return(
+
+
+           <div className="center">
+            <button classNmae="btn" onClick={this.props.slow}>Slow</button>
+            <button className="btn" onClick={this.props.fast}>Fast</button>
+            <button className="btn" onClick={this.props.clear}>Clear</button>
+            <button className="btn" onClick={this.props.seed}>Seed </button>
+            </div>
+        );
+
     }
 }
 class Grid extends React.Component{
@@ -133,6 +170,7 @@ class Box extends React.Component{
     selectbox =()=>{
         this.props.selectbox(this.props.row,this.props.col);
     }
+   
     
 render(){
 
@@ -145,7 +183,6 @@ render(){
 
     );
 }
-
 }
 function arrayclone(arr) {
         return JSON.parse(JSON.stringify(arr));
