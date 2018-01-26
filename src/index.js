@@ -9,17 +9,30 @@ class Main extends React.Component {
         this.speed=100;
          this.state={
              generation:0,
-             gridfull:Array(this.rows).fill().map(() => Array(this.cols).fill(false))
+             gridfull:Array(this.rows).fill().map(() => Array(this.cols).fill(false)),
+             prevgrid:null,
+             nextgrid:null,
+            
          }
     }
 
      selectbox=(row,col)=>{
          let gridcopy=arrayclone(this.state.gridfull);
-         gridcopy[row][col]=!gridcopy[row][col];
+         //let gridcopy1=arrayclone(this.state.gridfull);//copy it 
+         gridcopy[row][col]=!gridcopy[row][col];// changed here 
 
          this.setState({
-             gridfull:gridcopy
+             gridfull:gridcopy,
+             nextgrid:gridcopy
+            
          })
+     }
+     undo=()=>{
+         
+         this.setState({
+             gridfull:this.state.prevgrid
+         })
+        
      }
      seed=()=>{
          console.log("seed");
@@ -37,9 +50,26 @@ class Main extends React.Component {
         });
        
      }
+     redo=()=>{
+         this.setState({
+            gridfull:this.state.nextgrid
+         });
+     }
+     pause =()=>{
+         clearInterval(this.intervalId);
+         this.setState({
+            prevgrid:this.state.gridfull
+        
+         });
+     }
+    
      playbutton =()=>{
         clearInterval(this.intervalId);
-         this.intervalId=setInterval(this.play,this.speed);
+		this.intervalId = setInterval(this.play, this.speed);
+        
+        var myVar=setInterval(this.play,this.speed);
+        clearInterval(myVar);
+         
      }
      slow=()=>{
          this.speed=1000;
@@ -110,6 +140,9 @@ class Main extends React.Component {
            fast={this.fast}
            clear={this.clear}
            seed={this.seed}
+           pause={this.pause}
+           undo={this.undo}
+           redo={this.redo}
             />
 
            <h2> Generations:{this.state.generation}</h2>
@@ -130,6 +163,9 @@ class Buttons extends React.Component{
             <button className="btn" onClick={this.props.fast}>Fast</button>
             <button className="btn" onClick={this.props.clear}>Clear</button>
             <button className="btn" onClick={this.props.seed}>Seed </button>
+            <button className="btn" onClick={this.props.pause}>Pause </button>
+            <button className="btn" onClick={this.props.undo}>Undo</button>
+            <button className="btn" onClick={this.props.redo}>Redo</button>
             </div>
         );
 
